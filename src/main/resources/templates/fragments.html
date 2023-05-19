@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment = "head">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level-Up</title>
+  <link href = "https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link rel = "stylesheet" type= "text/css" href ="css/style.css">
+  <script src="https://kit.fontawesome.com/21cb0823b0.js" crossorigin="anonymous"></script>
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <script>
+          function toggleDropdown() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            dropdownMenu.classList.toggle("show");
+          }
+
+          document.addEventListener("click", function(event) {
+              var dropdownMenu = document.getElementById("dropdownMenu");
+              var dropdownToggle = document.querySelector(".dropdown-toggle");
+
+              if (event.target !== dropdownToggle && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove("show");
+              }
+          });
+
+  </script>
+</head>
+
+<!--헤더 -->
+<div th:fragment="header" class = "header">
+  <div class = "main_logo">
+    <a href = "/">
+      <img class = "main_logo_image" src = "image/mainLogo.png" alt = "logo">
+    </a>
+  </div>
+  <div class = "info">
+    <a th:href = "@{/write}">새 글 쓰기</a>
+    <a th:href = "@{/login}" sec:authorize="!isAuthenticated()">로그인</a>
+    <a th:href = "@{/sign-up}" sec:authorize="!isAuthenticated()">회원가입</a>
+    <div class="dropdown" sec:authorize="isAuthenticated()">
+      <button class="dropdown-toggle" onclick="toggleDropdown()" aria-expanded="false">프로필</button>
+      <div class="dropdown-menu" id="dropdownMenu" aria-hidden="true">
+        <a class="dropdown-item" href="#">링크1</a>
+        <a class="dropdown-item" href="#">링크2</a>
+        <form th:action = "@{/logout}" method="post">
+          <button class="dropdown-item" type="submit" style="font-size: 16px;">로그아웃</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 헤더끝 -->

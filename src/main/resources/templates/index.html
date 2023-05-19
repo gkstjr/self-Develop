@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "fragments.html :: head"></head>
+<script>
+        var slideIndex = 0;
+        //배너 슬라이드 함수 START
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+
+            function dotClick1(){
+               dots[0].className = dots[0].className.replace(" active","");
+               dots[1].className = dots[1].className.replace(" active","");
+               slides[1].style.display = "none";
+
+               slides[0].style.display = "block";
+               dots[0].className += " active";
+            }
+            function dotClick2(){
+               dots[0].className = dots[0].className.replace(" active","");
+               dots[1].className = dots[1].className.replace(" active","");
+               slides[0].style.display = "none";
+
+               slides[1].style.display = "block";
+               dots[1].className += " active";
+            }
+
+            dots[0].addEventListener("click",dotClick1);
+            dots[1].addEventListener("click",dotClick2);
+            setTimeout(showSlides, 5000);
+        };
+        //배너 슬라이드 함수 END
+
+        window.onload = function(){
+            showSlides(); // 배너 슬라이드 함수 호출
+        };
+
+        /* 나중에 체크 여부 필요할 때 참고하려고 미리써봤음
+            $(function(){
+                var check = document.querySelector('.toggle');
+                check.addEventListener("click",function(){
+                if($('input:checkbox[name=checkMy]').is(":checked")) {
+                    console.log("체크됨");
+                }else{
+                    console.log("체크안됨");
+                }
+                });
+            });
+        */
+    </script>
+
+<!--</head>-->
+<body>
+<div class = "wrap">
+    <!-- 헤더 START -->
+    <div th:replace = "fragments.html :: header"></div>
+    <!-- 헤더 END -->
+    <!-- 배너 START-->
+    <div class = "slideshow-container">
+        <div class = "mySlides fade">
+            <img class = "banner_image1" src = "image/banner1.png">
+        </div>
+        <div class = "mySlides fade">
+            <img class = "banner_image2" src = "image/banner2.png">
+        </div>
+    </div>
+
+    <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+    <!-- 배너 END-->
+
+    <!-- 메인 목록 START-->
+    <div class = "main">
+        <!--  분야별 선택 창 START-->
+        <div class = "main_header">
+            <div class = "menu_list">
+                <div class = "menu">
+                    <i class="fas fa-thin fa-2x fa-calendar-days icon" style = "color: #868E96;"></i>
+                    <span>전체</span>
+                </div>
+                <div class = "menu">
+                    <i class="fas fa-thin fa-2x fa-icons" style = "color: #868E96;"></i>
+                    <span>자기계발</span>
+                </div>
+                <div class = "menu">
+                    <i class="fas fa-thin fa-2x fa-people-group" style = "color: #868E96;"></i>
+                    <span>모임</span>
+                </div>
+            </div>
+
+            <div class = "menu_search">
+                <div class = 'search_list'>
+                    <div>
+                        <span>내 글만 보기</span>
+                    </div>
+                    <div class = "search_toggle">
+                        <input type = "checkbox" id="toggle" name = 'checkMy' class = "toggle" hidden>
+                        <label for="toggle" class="toggleSwitch">
+                            <span class = "toggleButton"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 분야별 선택 창 END-->
+        <!-- 목록 조회 창 START-->
+        <ul class = "main_list">
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class = "main_list_item">
+                <div class = "item_container">
+                    <!-- 글 븐류  -->
+                    <div class = "item_header">
+                        <div class = "study_party">
+                            <div class = "item_header_text1">
+                                <i class="fas fa-thin fa-pencil" style="color: #646464; transform: scaleX(-1);"></i> 자기계발
+                            </div>
+                            <div class = "item_header_text2">
+                                <i class="fas fa-solid fa-car" style="color: #646464; transform: scaleX(-1);"></i> 모임
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 자기계발 실행일 -->
+                    <div class = "item_date">
+                        <p>실행일 |</p>
+                        <p>2023.03.20</p>
+                    </div>
+                    <!-- 두줄이상 넘어가지 않게 ...처리해야함-->
+                    <div class = "item_text">
+                        <h1>운동하던 공부하던 영화보던 걷던 </h1>
+                    </div>
+                    <div class = "item_todo">
+                        <div class = "todo">운동</div>
+                        <div class = "todo">개발공부</div>
+                        <div class = "todo">개발공부</div>
+                    </div>
+                    <div class = "item_time">
+                        <p>소요시간 |</p>
+                        <div class = "time">1시간</div>
+                    </div>
+                    <div class = "user_border"></div>
+                    <div class = "item_user">
+                        <div class = "user_name">
+                            <img src = "image/userIcon.png">
+                            <p>김한석</p>
+                        </div>
+                        <div class = "like_reply">
+                            <img src = "image/heart.png">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 목록 조회 창 END-->
+    </div>
+    <!-- 메인 목록 END-->
+</div>
+</body>
+
+</html>

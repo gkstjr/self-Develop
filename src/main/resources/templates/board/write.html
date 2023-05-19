@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write</title>
+  <link href = "https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link rel = "stylesheet" type= "text/css" href ="style copy.css">
+  <!-- 글쓰기 에디터 -->
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css"/>
+  <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+  <script src="https://kit.fontawesome.com/21cb0823b0.js" crossorigin="anonymous"></script>
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script>
+
+        //날짜 라이브러리 한글기본값으로 변경
+         $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년'
+        });
+
+
+
+        $(function(){
+            //글쓰기 에디터 부분 START
+            const editor = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '나의 일상을 간략하게 설명해주세요!'
+            });
+
+            editor.on('text-change', () => {
+            console.log(editor.root.innerHTML);
+            });
+            //글쓰기 에디터 부분 END
+
+            //날짜 api
+            $("#datepicker").datepicker();
+
+            // select 부분 직접 구현
+            const label = document.querySelectorAll('.label');
+            label.forEach(function(lb){
+                lb.addEventListener('click', e => {
+                    let optionList = lb.nextElementSibling;
+                    let optionItems = optionList.querySelectorAll('.optionItem');
+                    clickLabel(lb, optionItems);
+                })
+            });
+            const clickLabel = (lb, optionItems) => {
+                if(lb.parentNode.classList.contains('active')) {
+                    lb.parentNode.classList.remove('active');
+                    optionItems.forEach((opt) => {
+                        opt.removeEventListener('click', () => {
+                            handleSelect(lb, opt)
+                        })
+                    })
+                } else {
+                    lb.parentNode.classList.add('active');
+                    optionItems.forEach((opt) => {
+                        opt.addEventListener('click', () => {
+                            console.log(2);
+                            handleSelect(lb, opt)
+                        })
+                    })
+                }
+            }
+            const handleSelect = (label, item) => {
+                label.innerHTML = item.textContent;
+                label.style.color = 'black';
+                label.style.fontWeight = 500;
+                label.parentNode.classList.remove('active');
+            }
+            // 일상선택부분만 따로
+            const label2 = document.querySelector('.label2');
+            const optionList = label2.nextElementSibling;
+            const options2 = optionList.querySelectorAll('.optionItem');
+            const handleSelect2 = function(item) {
+
+                const span_styles = document.querySelectorAll('.span_style');
+                if(span_styles.length === 3) {
+                    alert('선택 종류는 3개까지 가능합니다.');
+                    label2.parentNode.classList.remove('active');
+                    return;
+                }
+                const span = document.createElement('span');
+                span.innerHTML = item.textContent;
+                span.className = 'span_style';
+                const button = document.createElement('button');
+                button.innerHTML = 'x';
+                button.className = 'delete_btn'
+                const infoListItem = document.querySelector('.info_list_item2');
+                infoListItem.appendChild(span);
+                infoListItem.appendChild(button);
+                label2.parentNode.classList.remove('active');
+                //일상 선택 3개 초과시 알람창 뜨게하기
+                //일상 선택에서 x 클릭시 삭제되게 구현
+                const delete_btns = document.querySelectorAll('.delete_btn');
+                delete_btns.forEach(function(delete_btn){
+                    delete_btn.addEventListener('click', function(){
+                        const delete_span = delete_btn.previousElementSibling;
+                        delete_span.remove();
+                        delete_btn.remove();
+                    });
+                });
+            }
+
+            options2.forEach(function(option){
+                option.addEventListener('click', function(){
+                    handleSelect2(option);
+                })
+            })
+
+            label2.addEventListener('click', function(){
+                if(label2.parentNode.classList.contains('active')) {
+                    label2.parentNode.classList.remove('active');
+                } else {
+                    label2.parentNode.classList.add('active');
+                }
+            });
+
+
+        });
+
+    </script>
+</head>
+<body>
+<div class = "wrap">
+  <!-- 헤더 START -->
+  <div class = "header">
+    <div class = "main_logo">
+      <a href = "/">
+        <img class = "main_logo_image" src = "image/mainLogo.png" alt = "logo">
+      </a>
+    </div>
+    <div class = "info">
+      <a href = "#">새 글 쓰기</a>
+      <a href = "#">로그인</a>
+    </div>
+  </div>
+  <!-- 헤더 END -->
+
+  <div class = "write_wrap">
+    <!-- 굴쓰기 상단 섹션 -->
+    <div class = "section">
+      <div class = "basic_introduce">
+        <div class = "number_border">
+          <p>1</p>
+        </div>
+        <h2>오늘 나의 일상을 입력해주세요.</h2>
+      </div>
+      <div class = "write_border"></div>
+      <ul class = "info_list">
+        <li class = "info_list_item">
+          <p>글 구분</p>
+          <div class = "selectBoxList">
+            <div class = "box">
+              <div class = "selectBox2 ">
+                <button class = "label">자기계발/모임</button>
+                <ul class = "optionList">
+                  <li class = "optionItem">자기계발</li>
+                  <li class = "optionItem">모임</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class = "info_list_item">
+          <p>소요 시간</p>
+          <div class = "selectBoxList">
+            <div class = "box">
+              <div class = "selectBox2 ">
+                <button class = "label">30분 이하~6시간 이상(1시간 단위)</button>
+                <ul class = "optionList">
+                  <li class = "optionItem">30분 이하</li>
+                  <li class = "optionItem">1시간</li>
+                  <li class = "optionItem">2시간</li>
+                  <li class = "optionItem">3시간</li>
+                  <li class = "optionItem">4시간</li>
+                  <li class = "optionItem">5시간</li>
+                  <li class = "optionItem">6시간 이상</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class = "info_list_item2">
+          <p>일상 선택</p>
+          <div class = "selectBoxList">
+            <div class = "box">
+              <div class = "selectBox2 ">
+                <button class = "label2">운동/독서/음악/영화/기타(세부적인 건 제목 or 내용에)</button>
+                <ul class = "optionList">
+                  <li class = "optionItem">운동</li>
+                  <li class = "optionItem">독서</li>
+                  <li class = "optionItem">음악</li>
+                  <li class = "optionItem">영화</li>
+                  <li class = "optionItem">기타</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class = "info_list_item">
+          <p>실행일</p>
+          <div class = "selectBoxList">
+            <div class = "box">
+              <div class = "selectBox2">
+                <input type = "text" class = "input_date" id = "datepicker" placeholder="YYYY-MM-DD">
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 글쓰기 상단 섹션 끝-->
+
+    <!-- 글쓰기 하단 섹션 시작-->
+    <div class = "section2">
+      <div class = "basic_introduce">
+        <div class = "number_border">
+          <p>2</p>
+        </div>
+        <h2>오늘 나의 일상을 기록해주세요.</h2>
+      </div>
+      <div class = "write_border"></div>
+      <p>제목</p>
+      <input type ="text" class = "title_css" placeholder="글 제목을 입력해주세요!">
+      <!-- 글쓰기 에디터 Quilljs-->
+      <div id="editor"></div>
+      <!-- 글쓰기 에디터 Quilljs END-->
+      <div class = "btn_rayout">
+        <button class = "btn_insert">글 등록</button>
+        <button class = "btn_delete">취소</button>
+      </div>
+    </div>
+    <!-- 글쓰기 하단 섹션 끝-->
+  </div>
+</body>
+</html>
