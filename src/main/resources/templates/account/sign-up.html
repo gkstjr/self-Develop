@@ -32,7 +32,7 @@
       <div class = "login_pw">
         <label for="user_name" style = "color: #6b7280;">이름</label>
         <input id = "user_name" class = "form_design" type="text"  th:field = "*{name}" placeholder="이름을 입력해주세요.">
-        <small class="form-text text-danger"  th:errors="*{name}">userId Error</small>
+        <small class="form-text text-danger"  th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</small>
       </div>
       <div class = "join_submit">
         <input type = "submit"  value = "회원가입" class="form_design2">
