@@ -53,5 +53,11 @@ public class AccountService implements UserDetailsService {
 
         return new UserAccount(account);
     }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        //현재 account 객체는 변경감지가 되는 상태가 아니기 때문에 db에 직접 저장해주는 코드 작성
+        accountRepository.save(account);
+    }
 }
 
