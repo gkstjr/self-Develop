@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Level-Up</title>
   <link href = "https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-  <link rel = "stylesheet" type= "text/css" href ="css/style.css">
+  <link rel = "stylesheet" type= "text/css" href ="/css/style.css">
   <script src="https://kit.fontawesome.com/21cb0823b0.js" crossorigin="anonymous"></script>
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -38,7 +38,7 @@
 <div th:fragment="header" class = "header">
   <div class = "main_logo">
     <a href = "/">
-      <img class = "main_logo_image" src = "image/mainLogo.png" alt = "logo">
+      <img class = "main_logo_image" src = "/image/mainLogo.png" alt = "logo">
     </a>
   </div>
   <div class = "info">
@@ -51,7 +51,7 @@
         <span class="arrow-down"></span>
       </button>
       <div class="dropdown-menu" id="dropdownMenu" aria-hidden="true">
-        <a class="dropdown-item" href="#">설정</a>
+        <a class="dropdown-item" href="/settings/password">비밀번호 변경</a>
         <form th:action = "@{/logout}" method="post">
           <button class="dropdown-item" type="submit">로그아웃</button>
         </form>
