@@ -3,8 +3,108 @@
       xmlns:th="http://thymeleaf.org">
 <head th:replace = "fragments.html :: head"></head>
 
-
   <script>
+        //전역 변수로 선언
+        var executionVal;
+
+        //form 전송 함수
+        function submitForm(executionVal) {
+            var newForm = document.createElement('form');
+
+            var typeVal = document.getElementById('input1').textContent;
+            var timeVal = document.getElementById('input2').textContent;
+            var dailyAll = document.querySelectorAll('#input3');
+            var dailyVal = '';
+             for(var i = 0 ; i < dailyAll.length; i++) {
+              if(i == dailyAll.length - 1) {
+                dailyVal += dailyAll[i].textContent;
+              }else{
+                dailyVal += dailyAll[i].textContent + ";";
+              }
+            }
+
+            var titleVal = document.getElementById('input5').value;
+
+            var contentParent = document.querySelector('.ql-editor');
+            var contentAll = contentParent.childNodes;
+            var contentVal = '';
+            for(var i = 0 ; i < contentAll.length; i++) {
+              contentVal += contentAll[i].textContent;
+            }
+            console.log("typeVal = ", typeVal);
+            console.log("titleVal = ", titleVal);
+            console.log("executionVal = ", executionVal);
+            console.log("contentVal = ", contentVal);
+
+            //정규식 패턴으로 빈값일 때 알림창 띄우기
+            if(typeVal.trim() === "" || typeVal === "자기계발/모임" ){
+              alert("글 구분을 입력해주세요.");
+              return;
+            }
+            if(timeVal.trim() === "" || timeVal === "30분 이하~6시간 이상(1시간 단위)"){
+              alert("소요 시간을 입력해주세요.");
+              return;
+            }
+            if(dailyVal.trim() === ""){
+              alert("일상 선택을 입력해주세요.");
+              return;
+            }
+            if(executionVal === undefined){
+              alert("실행일을 입력해주세요.");
+              return;
+            }
+
+            if(titleVal.trim() === ""){
+              alert("글 제목을 입력해주세요.");
+              return;
+            }
+            if(contentVal.trim() === ""){
+              alert("글 내용을 입력해주세요.");
+              return;
+            }
+
+            newForm.name = 'newForm';
+            newForm.method = 'post';
+            newForm.action = '/write';
+
+            //create element (input)
+            var input1 = document.createElement('input');
+            var input2 = document.createElement('input');
+            var input3 = document.createElement('input');
+            var input4 = document.createElement('input');
+            var input5 = document.createElement('input');
+            var input6 = document.createElement('input');
+
+            input1.setAttribute('type', "hidden");
+            input1.setAttribute('name', "type");
+            input1.setAttribute('value',typeVal);
+            input2.setAttribute('type', "hidden");
+            input2.setAttribute('name', "time");
+            input2.setAttribute('value',timeVal);
+            input3.setAttribute('type', "hidde");
+            input3.setAttribute('name', "daily");
+            input3.setAttribute('value',dailyVal);
+            input4.setAttribute('type', "hidden");
+            input4.setAttribute('name', "executionAt");
+            input4.setAttribute('value',executionVal);
+            input5.setAttribute('type',"hidden");
+            input5.setAttribute('name',"title");
+            input5.setAttribute('value',titleVal);
+            input6.setAttribute('type',"hidden");
+            input6.setAttribute('name',"content");
+            input6.setAttribute('value',contentVal);
+
+            newForm.appendChild(input1);
+            newForm.appendChild(input2);
+            newForm.appendChild(input3);
+            newForm.appendChild(input4);
+            newForm.appendChild(input5);
+            newForm.appendChild(input6);
+
+            document.body.appendChild(newForm);
+
+            newForm.submit();
+        }
 
         //날짜 라이브러리 한글기본값으로 변경
          $.datepicker.setDefaults({
@@ -23,6 +123,28 @@
 
 
         $(function(){
+            // 날짜 입력 값 변수 설정
+            $("#datepicker").datepicker({
+                onSelect: function(dateText, instance) {
+                executionVal = $(this).val();
+                console.log("선택한 날짜: " + executionVal);
+                // 선택한 날짜 값을 다른 로직에서 사용 가능
+                },
+                // 오늘 날싸 이상은 선택 못하게
+                beforeShowDay: function(date) {
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00:00으로 설정
+
+                    // 선택 가능한 날짜인지 확인
+                    if (date.getTime() <= today.getTime()) {
+                      return [true, ""];
+                    } else {
+                      return [false, "", "오늘 이후 날짜만 선택할 수 있습니다."];
+                    }
+                }
+
+            });
+
             //글쓰기 에디터 부분 START
             const editor = new Quill('#editor', {
             theme: 'snow',
@@ -30,8 +152,9 @@
             });
 
             editor.on('text-change', () => {
-            console.log(editor.root.innerHTML);
+            //console.log(editor.root.innerHTML);
             });
+
             //글쓰기 에디터 부분 END
 
             //날짜 api
@@ -85,6 +208,7 @@
                 const span = document.createElement('span');
                 span.innerHTML = item.textContent;
                 span.className = 'span_style';
+                span.id = 'input3';
                 const button = document.createElement('button');
                 button.innerHTML = 'x';
                 button.className = 'delete_btn'
@@ -125,17 +249,8 @@
 <body>
 <div class = "wrap">
   <!-- 헤더 START -->
-  <div class = "header">
-    <div class = "main_logo">
-      <a href = "/">
-        <img class = "main_logo_image" src = "image/mainLogo.png" alt = "logo">
-      </a>
-    </div>
-    <div class = "info">
-      <a href = "#">새 글 쓰기</a>
-      <a href = "#">로그인</a>
-    </div>
-  </div>
+  <div th:replace = "fragments.html :: header"></div>
+
   <!-- 헤더 END -->
 
   <div class = "write_wrap">
@@ -154,7 +269,7 @@
           <div class = "selectBoxList">
             <div class = "box">
               <div class = "selectBox2 ">
-                <button class = "label">자기계발/모임</button>
+                <button class = "label" id = "input1">자기계발/모임</button>
                 <ul class = "optionList">
                   <li class = "optionItem">자기계발</li>
                   <li class = "optionItem">모임</li>
@@ -168,7 +283,7 @@
           <div class = "selectBoxList">
             <div class = "box">
               <div class = "selectBox2 ">
-                <button class = "label">30분 이하~6시간 이상(1시간 단위)</button>
+                <button class = "label" id = "input2">30분 이하~6시간 이상(1시간 단위)</button>
                 <ul class = "optionList">
                   <li class = "optionItem">30분 이하</li>
                   <li class = "optionItem">1시간</li>
@@ -223,16 +338,17 @@
       </div>
       <div class = "write_border"></div>
       <p>제목</p>
-      <input type ="text" class = "title_css" placeholder="글 제목을 입력해주세요!">
+      <input type ="text" class = "title_css" placeholder="글 제목을 입력해주세요!" id = "input5">
       <!-- 글쓰기 에디터 Quilljs-->
       <div id="editor"></div>
       <!-- 글쓰기 에디터 Quilljs END-->
       <div class = "btn_rayout">
-        <button class = "btn_insert">글 등록</button>
+        <button class = "btn_insert" onclick="submitForm(executionVal);">글 등록</button>
         <button class = "btn_delete">취소</button>
       </div>
     </div>
     <!-- 글쓰기 하단 섹션 끝-->
   </div>
+</div>
 </body>
 </html>
