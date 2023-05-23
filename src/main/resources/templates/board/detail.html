@@ -1,60 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detail</title>
-  <link href = "https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-  <link rel = "stylesheet" type= "text/css" href ="style copy.css">
-  <script src="https://kit.fontawesome.com/21cb0823b0.js" crossorigin="anonymous"></script>
-  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-</head>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "fragments.html :: head"></head>
 <body>
-<!-- 헤더 START -->
-<div class = "wrap">
-  <div class = "header">
-    <div class = "main_logo">
-      <a href = "/">
-        <img class = "main_logo_image" src = "image/mainLogo.png" alt = "logo">
-      </a>
-    </div>
-    <div class = "info">
-      <a href = "#">새 글 쓰기</a>
-      <a href = "#">로그인</a>
-    </div>
-  </div>
-  <!-- 헤더 END -->
-  <!-- 글 상세보기 본문 START-->
+<div th:replace = "fragments.html :: header"></div>
+
+<!-- 글 상세보기 본문 START-->
   <div class = "detail">
     <i class="fas fa-light fa-2x fa-arrow-left" style="margin-top: 48px; color : gray;"></i>
     <div class = "detail_title">
       개발하던 운동하던 공부하던 내맘대로
     </div>
     <div class = "detail_user">
-      <img src = "image/userIcon.png">
-      <p style="font-weight: 700;">김한석</p>
-      <p>2023.04.06</p>
+      <img src = "/image/userIcon.png">
+      <p style="font-weight: 700;" th:text = ${board.account.name}>이름</p>
+      <p th:text = "${executionAt}">작성일자 값</p>
+
     </div>
     <!-- 글 종류 리스트 START-->
     <ul class = "detail_list">
       <li>
         <span>일정 구분</span>
-        <span>자기계발</span>
+        <span th:text = "${board.type}">일정 구분</span>
       </li>
       <li>
         <span>소요 시간</span>
-        <span>2시간</span>
+        <span th:text = "${board.time}">소요 시간값</span>
       </li>
       <li>
         <span>일상 선택</span>
-        <span class = "detail_type">운동</span>
-        <span class = "detail_type">독서</span>
-        <span class = "detail_type">영어</span>
+        <span class = "detail_type" th:each="daily : ${daily}" th:text="${daily}">일상</span>
       </li>
       <li>
         <span>실행 일자</span>
-        <span>2023.03.02</span>
+        <span th:text="${board.executionAt}">실행 일자 값</span>
       </li>
     </ul>
     <!-- 글 종류 리스트 END-->
@@ -63,14 +42,17 @@
         <p>일상 소개</p>
       </div>
       <div class = "detail_content">
-        <p>안녕하세요 형님들 잘 지내시죠 저는 잘 있습니다 밥이나 먹고 지내자</p>
+        <p th:text="${board.content}">글 내용</p>
       </div>
     </div>
+
     <!-- 댓글 창-->
     <div class = "detail_reply">
       <p>0개의 댓글이 있습니다.</p>
       <input class = "reply_content" type="text" placeholder="댓글을 입력하세요.">
       <div class = "reply_btn">
+        <button th:if ="${myBoard}">글 변경</button>
+        <button th:if ="${myBoard}">글 삭제</button>
         <button>댓글 등록</button>
       </div>
     </div>
