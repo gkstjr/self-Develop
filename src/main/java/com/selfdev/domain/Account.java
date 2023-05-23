@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -13,11 +15,14 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue @Column(name = "account_id")
     private Long id;
 
     @Column(unique = true)
     private String userId;
+
+    @OneToMany(mappedBy = "account")
+    private List<Board> boards = new ArrayList<>();
 
     private String name;
 
