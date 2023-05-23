@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.rememberMe()
                 .userDetailsService(accountService)
                 .tokenRepository(tokenRepository());
+        http.csrf().disable();
     }
     @Bean
     public PersistentTokenRepository tokenRepository() {
