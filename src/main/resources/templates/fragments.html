@@ -17,6 +17,7 @@
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
+      // 드랍다운 아닌 곳 누르면 없어지게 하는 함수
           function toggleDropdown() {
             var dropdownMenu = document.getElementById("dropdownMenu");
             dropdownMenu.classList.toggle("show");
@@ -28,12 +29,10 @@
               var icon = document.getElementById("icon_drop");
               var arrowDown = document.querySelector(".arrow-down");
 
-              console.log(event.target);
               if (event.target !== arrowDown && event.target !== icon && event.target !== dropdownToggle && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove("show");
               }
           });
-
   </script>
 </head>
 
