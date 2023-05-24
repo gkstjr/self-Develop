@@ -55,7 +55,7 @@
         <input type = "hidden" th:field="*{id}">
         <button th:if ="${myBoard}" type="submit">글 변경</button>
         </form>
-        <form th:if = "${myBoard}" th:action="@{/delete}" th:object = "${board}" method="get">
+        <form th:if = "${myBoard}" th:action="@{/delete}" th:object = "${board}" method="post">
           <input type = "hidden" th:field = "*{id}">
           <button th:if ="${myBoard}">글 삭제</button>
         </form>

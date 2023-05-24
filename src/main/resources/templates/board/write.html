@@ -105,6 +105,10 @@
 
             newForm.submit();
         }
+        // 취소시
+        function cancelSubmit() {
+            window.location.href = "/";
+        }
 
         //날짜 라이브러리 한글기본값으로 변경
          $.datepicker.setDefaults({
@@ -344,7 +348,7 @@
       <!-- 글쓰기 에디터 Quilljs END-->
       <div class = "btn_rayout">
         <button class = "btn_insert" onclick="submitForm(executionVal);">글 등록</button>
-        <button class = "btn_delete">취소</button>
+        <button class = "btn_delete" onclick="cancelSubmit()">취소</button>
       </div>
     </div>
     <!-- 글쓰기 하단 섹션 끝-->

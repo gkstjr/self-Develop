@@ -77,7 +77,7 @@ public class BoardController {
         return "redirect:/detail";
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public String deleteGet(@RequestParam("id") Long boardId , Model model) {
         boardService.remove(boardId);
         return "redirect:/";
