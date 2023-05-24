@@ -822,7 +822,8 @@ img {vertical-align: middle;}
   gap:15px;
   justify-content: end;
 }
-.reply_btn > button {
+.reply_btn > button,
+ .reply_btn form > button{
     border: none;
     width: 120px;
     height: 100%;
