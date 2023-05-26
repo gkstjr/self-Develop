@@ -47,8 +47,10 @@ public class BoardController {
     public String detailGet(@CurrentUser Account account, @RequestParam("boardId") Long boardId, Model model) {
         Board newBoard = boardService.findByBoardId(boardId);
 
+        if(account != null) { // account가 null일 때 오류 나올 수 있으니 검증해주기
         boolean myBoard = newBoard.getAccount().getId() == account.getId();
         model.addAttribute("myBoard",myBoard);
+        }
 
         //작성일 String으로 변환 코드
         String executionAt = String.format(newBoard.getExecutionAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -60,6 +62,7 @@ public class BoardController {
         model.addAttribute("daily",daily);
 
         model.addAttribute(newBoard);
+
         return "board/detail";
     }
 

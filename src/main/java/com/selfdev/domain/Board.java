@@ -34,6 +34,4 @@ public class Board {
 
     private LocalDateTime updateAt; // 수정 일자
 
-
-
 }
