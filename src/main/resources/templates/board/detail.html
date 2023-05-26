@@ -2,12 +2,18 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace = "fragments.html :: head"></head>
+<script>
+  function cancel() {
+    window.location.href = "/?page=" + [[${param.page}]];
+  }
+
+</script>
 <body>
 <div th:replace = "fragments.html :: header"></div>
 
 <!-- 글 상세보기 본문 START-->
   <div class = "detail">
-    <i class="fas fa-light fa-2x fa-arrow-left" style="margin-top: 48px; color : gray;"></i>
+    <i class="fas fa-light fa-2x fa-arrow-left" style="cursor:pointer; margin-top: 48px; color : gray;" onclick = "cancel();"></i>
     <div class = "detail_title" th:text = "${board.title}">
         타이틀
     </div>
