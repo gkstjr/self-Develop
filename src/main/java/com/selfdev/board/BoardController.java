@@ -5,6 +5,8 @@ import com.selfdev.domain.Account;
 import com.selfdev.domain.Board;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,17 +30,6 @@ public class BoardController {
     public String writePost(@CurrentUser Account account, WriteForm writeForm, Model model , RedirectAttributes re) {
           Board newBoard = boardService.save(writeForm,account);
           Long boardId = newBoard.getId();
-//        boolean myBoard = newBoard.getAccount().getId() == account.getId();
-//        model.addAttribute("myBoard",myBoard);
-//
-//        //작성일 String으로 변환 코드
-//        String executionAt = String.format(newBoard.getExecutionAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        model.addAttribute("executionAt",executionAt);
-//
-//        //일상 선택 ;기준으로 분류
-//        String dailyAll = newBoard.getDaily();
-//        String[] daily = dailyAll.split(";");
-//        model.addAttribute("daily",daily);
 
         re.addAttribute("boardId",boardId);
         return "redirect:/detail";
@@ -47,19 +38,19 @@ public class BoardController {
     public String detailGet(@CurrentUser Account account, @RequestParam("boardId") Long boardId, Model model) {
         Board newBoard = boardService.findByBoardId(boardId);
 
-        if(account != null) { // account가 null일 때 오류 나올 수 있으니 검증해주기
-        boolean myBoard = newBoard.getAccount().getId() == account.getId();
-        model.addAttribute("myBoard",myBoard);
+        if (account != null) { // account가 null일 때 오류 나올 수 있으니 검증해주기
+            boolean myBoard = newBoard.getAccount().getId().equals(account.getId());
+            model.addAttribute("myBoard", myBoard);
         }
 
         //작성일 String으로 변환 코드
         String executionAt = String.format(newBoard.getExecutionAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        model.addAttribute("executionAt",executionAt);
+        model.addAttribute("executionAt", executionAt);
 
         //일상 선택 ;기준으로 분류
         String dailyAll = newBoard.getDaily();
         String[] daily = dailyAll.split(";");
-        model.addAttribute("daily",daily);
+        model.addAttribute("daily", daily);
 
         model.addAttribute(newBoard);
 

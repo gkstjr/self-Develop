@@ -30,12 +30,19 @@ class BoardServiceTest {
     @Test
     @DisplayName("글 더미 데이터 넣기")
     public void insertTest() {
-            Account account = accountRepository.findByUserId("gkstjr");
 
         for(int i = 21 ; i < 40; i++) {
+
             Board board = new Board();
-            if(i % 2 == 0) board.setType("자기계발");
-            else board.setType("모임");
+            Account account;
+            if(i % 2 == 0) {
+                board.setType("자기계발");
+                 account = accountRepository.findByUserId("gksal");
+            }
+            else{
+                board.setType("모임");
+                 account = accountRepository.findByUserId("gkstjr8541");
+            }
             board.setTime("1시간");
             board.setDaily("영화;독서;기타");
             board.setExecutionAt("2023-05-25");
