@@ -1,6 +1,9 @@
 package com.selfdev.main;
 
+import com.selfdev.account.CurrentUser;
 import com.selfdev.board.BoardService;
+import com.selfdev.board.SelectForm;
+import com.selfdev.domain.Account;
 import com.selfdev.domain.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,12 +22,34 @@ public class MainController {
 
     private final BoardService boardService;
     @GetMapping("/")
-    public String home(@PageableDefault(page = 1) Pageable pageable, Model model) {
-//        pageable.getPageNumber(); // 몇페이지가 요청 됐는지 값을 알 수 있음
-         Page<Board> boardList = boardService.paging(pageable);
+    public String home(@PageableDefault(page = 1) Pageable pageable, @CurrentUser Account account , String myBoard , Model model) {
+        Page<SelectForm> boardList;
+        if(myBoard == null) {
+            boardList = boardService.paging(pageable);
+        }else {
+            if(account == null) {
+                return "redirect:/login";
+            }
+            boardList = boardService.pagingMy(pageable,account);
+        }
+        int blockLimit = 3; // 보여지는 페이지 갯수
+        int startPage =  (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < boardList.getTotalPages()) ? startPage + blockLimit - 1 : boardList.getTotalPages();
+        for(SelectForm board : boardList) {
+            board.splitDaily();
+            for(String str : board.getDailys()) {
+                System.out.println("분리된 일상 = " + str);
+            }
+        }
 
-//        List<Board> boardList = boardService.findAll();
+        System.out.println("startPage = " + startPage);
+        System.out.println("endPage = " + endPage);
+        System.out.println("연산 = " + Math.ceil((double)pageable.getPageNumber() / blockLimit));
+        System.out.println("pageable.getPageNumber = " +pageable.getPageNumber());
         model.addAttribute("boardList",boardList);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
         return "index";
     }
 }

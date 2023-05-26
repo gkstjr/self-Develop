@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/*").permitAll();
+                .mvcMatchers("/","/login","/sign-up","/detail").permitAll()
+                .anyRequest().authenticated();
 
         http.formLogin()
                 .loginPage("/login").permitAll();
@@ -48,7 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+//        web.ignoring()
+//                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//       위의 코드 안먹어서 밑으로 바꿈
         web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .antMatchers("/css/**","/image/**");
     }
 }
