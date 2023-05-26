@@ -58,7 +58,12 @@
 
         //상세보기 이동
         function detail(boardId) {
-            window.location.href = "/detail?boardId=" + boardId + "&page=" + [[${boardList.number + 1}]];
+            var myBoard = "[[${param.myBoard}]]";
+            if(myBoard){
+                window.location.href = "/detail?boardId=" + boardId + "&page=" + [[${boardList.number + 1}]] + "&myBoard=on";
+            }else {
+                window.location.href = "/detail?boardId=" + boardId + "&page=" + [[${boardList.number + 1}]];
+            }
         }
 
            /* 나중에 체크 여부 필요할 때 참고하려고 미리써봤음

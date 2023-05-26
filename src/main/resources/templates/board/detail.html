@@ -2,13 +2,28 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace = "fragments.html :: head"></head>
+<body>
 <script>
   function cancel() {
-    window.location.href = "/?page=" + [[${param.page}]];
+    var page = "[[${param.page}]]";
+    var myBoard = "[[${param.myBoard}]]";
+
+    if(page) {
+      if(myBoard) {
+        window.location.href = "/?page=" + page + "&myBoard=on";
+      }else{
+        window.location.href = "/?page=" + page;
+      }
+    }else {
+      if(myBoard) {
+        window.location.href = "/?myBoard=on" ;
+      }else{
+        window.location.href = "/" ;
+      }
+    }
   }
 
 </script>
-<body>
 <div th:replace = "fragments.html :: header"></div>
 
 <!-- 글 상세보기 본문 START-->

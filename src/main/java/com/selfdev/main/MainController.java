@@ -24,28 +24,24 @@ public class MainController {
     @GetMapping("/")
     public String home(@PageableDefault(page = 1) Pageable pageable, @CurrentUser Account account , String myBoard , Model model) {
         Page<SelectForm> boardList;
-        if(myBoard == null) {
+
+        if(myBoard == null) { // 전체 글 목록
             boardList = boardService.paging(pageable);
-        }else {
-            if(account == null) {
+        }else { // 내 글만 목록
+            if(account == null) { //아이디 필요하므로 로그인 안한 상태면 로그인 화면으로 이동
                 return "redirect:/login";
             }
             boardList = boardService.pagingMy(pageable,account);
         }
-        int blockLimit = 3; // 보여지는 페이지 갯수
+
+        int blockLimit = 5; // 보여지는 페이지 갯수
         int startPage =  (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
-        int endPage = ((startPage + blockLimit - 1) < boardList.getTotalPages()) ? startPage + blockLimit - 1 : boardList.getTotalPages();
+        int endPage =  ((startPage + blockLimit - 1) < boardList.getTotalPages()) ? startPage + blockLimit - 1 : boardList.getTotalPages();
+
         for(SelectForm board : boardList) {
             board.splitDaily();
-            for(String str : board.getDailys()) {
-                System.out.println("분리된 일상 = " + str);
-            }
         }
 
-        System.out.println("startPage = " + startPage);
-        System.out.println("endPage = " + endPage);
-        System.out.println("연산 = " + Math.ceil((double)pageable.getPageNumber() / blockLimit));
-        System.out.println("pageable.getPageNumber = " +pageable.getPageNumber());
         model.addAttribute("boardList",boardList);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
