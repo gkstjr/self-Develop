@@ -41,6 +41,7 @@ public class BoardController {
         if (account != null) { // account가 null일 때 오류 나올 수 있으니 검증해주기
             boolean myBoard = newBoard.getAccount().getId().equals(account.getId());
             model.addAttribute("myBoard", myBoard);
+            model.addAttribute("account",account);
         }
 
         //작성일 String으로 변환 코드
