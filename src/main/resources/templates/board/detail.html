@@ -4,6 +4,41 @@
 <head th:replace = "fragments.html :: head"></head>
 <body>
 <script>
+   //댓글 등록 클릭시 함수
+      const commentWrite = () => {
+          var accountName = "[[${#authentication.name}]]";
+          if(accountName === "anonymousUser") {
+            alert("댓글 등록은 로그인 후 이용하실 수 있습니다.");
+            return;
+          }
+
+          const writer =  accountName;
+          const contents = document.getElementById("commentContents").value;
+          const boardId = [[${param.boardId}]];
+          console.log("작성자 : ", writer);
+          console.log("내용 : ", contents);
+          console.log("게시글 번호 : ", boardId);
+
+
+          $.ajax({
+              // 요청방식 : post, 요청주소 /comment/save, 요청데이터: 작성자, 작성내용, 게시글번호
+              type: "post",
+              url: "/comment/save",
+              data: {
+                   "commentWriter" : writer,
+                   "commentContents" : contents,
+                   "boardId" : boardId
+              },
+              success: function(res) {
+                  console.log("요청 성공");
+              },
+              error : function(err) {
+                  console.log("요청 실패", err);
+              }
+          });
+      }
+
+  //글 취소 버튼 클릭시 호출 함수
   function cancel() {
     var page = "[[${param.page}]]";
     var myBoard = "[[${param.myBoard}]]";
@@ -70,7 +105,7 @@
     <!-- 댓글 창-->
     <div class = "detail_reply">
       <p>0개의 댓글이 있습니다.</p>
-      <input class = "reply_content" type="text" placeholder="댓글을 입력하세요.">
+      <input class = "reply_content" type="text" id = "commentContents" placeholder="댓글을 입력하세요.">
       <div class = "reply_btn">
         <form th:if = "${myBoard}" th:action="@{/update}" th:object = "${board}" method="get">
         <input type = "hidden" th:field="*{id}">
@@ -80,12 +115,17 @@
           <input type = "hidden" th:field = "*{id}">
           <button th:if ="${myBoard}">글 삭제</button>
         </form>
-        <button>댓글 등록</button>
+        <button id = "comment-write-btn" onclick = "commentWrite()">댓글 등록</button>
       </div>
+    </div>
+    <!--  댓글 출력 부분-->
+    <div id = "comment-list">
+
     </div>
   </div>
   <!-- 글 상세보기 본문 END-->
 </div>
 
 </body>
+
 </html>
