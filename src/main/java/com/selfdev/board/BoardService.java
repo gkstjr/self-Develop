@@ -75,6 +75,7 @@ public class BoardService {
                 = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
 
         Page<SelectForm> boardList = boardEntities.map(board -> new SelectForm(board.getId(),board.getType(),board.getTime(),board.getAccount(),board.getDaily(),board.getExecutionAt(),board.getTitle(),board.getContent(),board.getWriteAt(),board.getUpdateAt()));
+        /*
         System.out.println("요청 페이지에 해당하는 글 = " + boardList.getContent());
         System.out.println("전체 글 갯수 = " + boardList.getTotalElements());
         System.out.println("DB로 요청한 페이지 번호 = " + boardList.getNumber());
@@ -83,6 +84,7 @@ public class BoardService {
         System.out.println("이전 페이지 존재 여부 = " + boardList.hasPrevious());
         System.out.println("첫 페이지 여부 = " + boardList.isFirst());
         System.out.println("마지막 페이지 여부 = " + boardList.isLast());
+        */
 
         return boardList;
     }
