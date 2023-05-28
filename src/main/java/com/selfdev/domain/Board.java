@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
@@ -33,5 +35,8 @@ public class Board {
     private LocalDateTime writeAt; // 작성 일자
 
     private LocalDateTime updateAt; // 수정 일자
+
+    @OneToMany(mappedBy = "board" , cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 
 }

@@ -45,8 +45,9 @@ public class BoardController {
         }
 
         //작성일 String으로 변환 코드
-        String executionAt = String.format(newBoard.getExecutionAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        model.addAttribute("executionAt", executionAt);
+        String writeAt = newBoard.getWriteAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+
+        model.addAttribute("writeAt", writeAt);
 
         //일상 선택 ;기준으로 분류
         String dailyAll = newBoard.getDaily();
