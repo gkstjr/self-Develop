@@ -1,11 +1,10 @@
 package com.selfdev.domain;
 
 import lombok.*;
+import net.bytebuddy.asm.Advice;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -20,8 +19,18 @@ public class Comment {
 
     private String commentWriter;
 
-    @Column
+    private String commentNickname;
+
     private String commentContents;
+
+    private LocalDateTime writeAt;
+
+    private LocalDateTime updateAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
 
 
 }
