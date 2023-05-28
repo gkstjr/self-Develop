@@ -30,7 +30,26 @@
                    "boardId" : boardId
               },
               success: function(res) {
-                  console.log("요청 성공");
+                  console.log("요청 성공" , res);
+                  let output = "";
+                  for(let i in res) {
+                      let writeAtDate = res[i].writeAt.substring(0,10);
+                      let writeAtTime = res[i].writeAt.substring(11,19);
+                      output += "<li class = 'commentItem'>";
+                      output += "<section class ='commentItem_header'>";
+                      output += "<div class = 'commentItem_writer'>"
+                      output += "<img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
+                      output += "<div class = 'commentItem_info'>";
+                      output += "<div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
+                      output += "<div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
+                      output += "</div>"
+                      output += "</section>"
+                      output += "<section class = 'commentItem_content'>"
+                      output += "<p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
+                      output += "</section></li>";
+                  }
+                  document.getElementById('comment-list').innerHTML = output;
+                  document.getElementById('commentContents').value = '';
               },
               error : function(err) {
                   console.log("요청 실패", err);
@@ -70,7 +89,7 @@
     <div class = "detail_user">
       <img src = "/image/userIcon.png">
       <p style="font-weight: 700;" th:text = ${board.account.name}>이름</p>
-      <p th:text = "${executionAt}">작성일자 값</p>
+      <p th:text = "${writeAt}">작성일자 값</p>
 
     </div>
     <!-- 글 종류 리스트 START-->
@@ -119,9 +138,23 @@
       </div>
     </div>
     <!--  댓글 출력 부분-->
-    <div id = "comment-list">
-
-    </div>
+    <ul id = "comment-list">
+      <li class = "commentItem">
+          <section class = "commentItem_header">
+              <div class = "commentItem_writer">
+                    <img class = "commentItem_userImg "src="/image/userIcon.png">
+                    <div class = "commentItem_info">
+                        <div class = "commentItem_nickName">김한석</div>
+                        <div class = "commentItem_writeAt">2023-05-28 00:00:00</div>
+                    </div>
+              </div>
+          </section>
+          <section class = "commentItem_content">
+              <p class = "commentItem_content commentContent">안녕하세요.</p>
+          </section>
+      </li>
+    </ul>
+    <!-- 댓글 출력 부분 END    -->
   </div>
   <!-- 글 상세보기 본문 END-->
 </div>
