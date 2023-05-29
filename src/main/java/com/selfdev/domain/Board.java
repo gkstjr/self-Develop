@@ -12,6 +12,7 @@ import java.util.List;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Board {
 
+
     @Id
     @GeneratedValue @Column(name = "board_id")
     private Long id;
