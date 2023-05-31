@@ -46,7 +46,9 @@ public class CommentService {
         public List<CommentForm> findAll(Long boardId) {
                Board board =  boardRepository.findById(boardId).get();
                List<Comment> commentList = commentRepository.findAllByBoardOrderByIdDesc(board);
-
+               if(commentList == null) {
+                   return null;
+               }
                List<CommentForm> commentFormsList = new ArrayList<>();
                for(Comment comment : commentList) {
                        CommentForm commentForm = CommentForm.builder()

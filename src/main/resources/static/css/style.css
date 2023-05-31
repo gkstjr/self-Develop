@@ -34,7 +34,7 @@
 .header > .info {
     /* background: blue; */
     height: 80px;
-    width: 250px;
+    width: 25%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
