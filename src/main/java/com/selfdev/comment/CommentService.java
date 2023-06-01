@@ -82,4 +82,10 @@ public class CommentService {
             commentRepository.deleteById(commentForm.getId());
 
     }
+
+    public Long commentCount(Long id) {
+
+           return commentRepository.countByBoardId(id);
+
+        }
 }
