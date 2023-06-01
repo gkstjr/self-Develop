@@ -225,21 +225,21 @@ img {vertical-align: middle;}
 }
 /* 자기계발 텍스트 */
 .item_header_text1{
-    background: #cecdcd;
+    background: #fff9d5;
     border-radius: 20px;
     width: 77px;
     line-height: 25px;
     text-align: center;
-    color: #646464;
+    color: #fdb900;
 }
 /* 모임 텍스트 */
 .item_header_text2{
-    background: #cecdcd;
+    background: #efefef;
     border-radius: 20px;
     width: 60px;
     line-height: 25px;
     text-align: center;
-    color: #646464;
+    color: #656565;
 }
 .item_date{
     width: 256px;
