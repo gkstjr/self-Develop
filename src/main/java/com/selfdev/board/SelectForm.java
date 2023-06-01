@@ -33,6 +33,8 @@ public class SelectForm {
 
     private String[] dailys; // 일상을 분리후 넣음
 
+    private Long CommentCount; // 댓글 수
+
     public SelectForm(Long id, String type, String time, Account account, String daily, String executionAt, String title, String content, LocalDateTime writeAt, LocalDateTime updateAt) {
         this.id = id;
         this.type = type;

@@ -3,6 +3,7 @@ package com.selfdev.main;
 import com.selfdev.account.CurrentUser;
 import com.selfdev.board.BoardService;
 import com.selfdev.board.SelectForm;
+import com.selfdev.comment.CommentService;
 import com.selfdev.domain.Account;
 import com.selfdev.domain.Board;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class MainController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
     @GetMapping("/")
     public String home(@PageableDefault(page = 1) Pageable pageable, @CurrentUser Account account , String myBoard , Model model) {
         Page<SelectForm> boardList;
@@ -40,6 +42,8 @@ public class MainController {
 
         for(SelectForm board : boardList) {
             board.splitDaily();
+            Long commentCount = commentService.commentCount(board.getId());
+            board.setCommentCount(commentCount);
         }
 
         model.addAttribute("boardList",boardList);
