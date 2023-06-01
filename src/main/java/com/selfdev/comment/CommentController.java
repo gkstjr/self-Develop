@@ -40,4 +40,20 @@ public class CommentController {
             return new ResponseEntity<>("해당 게시글이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/update")
+    public ResponseEntity update(@ModelAttribute CommentForm commentForm) {
+        commentForm = commentService.update(commentForm);
+        List<CommentForm> commentList = commentService.findAll(commentForm.getBoardId());
+        return new ResponseEntity<>(commentList,HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity delete(@ModelAttribute CommentForm commentForm) {
+
+        commentService.delete(commentForm);
+        List<CommentForm> commentList = commentService.findAll(commentForm.getBoardId());
+        return new ResponseEntity<>(commentList,HttpStatus.OK);
+    }
+
 }

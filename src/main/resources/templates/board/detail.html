@@ -3,9 +3,10 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace = "fragments.html :: head"></head>
 <body>
-<script>
+<script th:inline="javascript">
       //페이지 로드시 댓글 목록 조회
       $(function(){
+           var accountName = [[${#authentication.name}]];
            const boardId = [[${param.boardId}]];
            console.log("게시글 번호 : ", boardId);
 
@@ -17,23 +18,32 @@
                    "boardId" : boardId
               },
               success: function(res) {
-                  console.log("요청 성공" , res);
                   let output = "";
+                  console.log("요청성공");
                   for(let i in res) {
+
                       let writeAtDate = res[i].writeAt.substring(0,10);
                       let writeAtTime = res[i].writeAt.substring(11,19);
                       output += "<li class = 'commentItem'>";
-                      output += "<section class ='commentItem_header'>";
-                      output += "<div class = 'commentItem_writer'>"
-                      output += "<img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
-                      output += "<div class = 'commentItem_info'>";
-                      output += "<div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
-                      output += "<div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
-                      output += "</div>"
-                      output += "</section>"
-                      output += "<section class = 'commentItem_content'>"
-                      output += "<p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
-                      output += "</section></li>";
+                      output += "   <section class ='commentItem_header'>";
+                      output += "       <div class = 'commentItem_writer'>"
+                      output += "           <img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
+                      output += "           <div class = 'commentItem_info'>";
+                      output += "               <div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
+                      output += "               <div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
+                      output += "           </div>"
+                      output += "       </div>"
+                      if(res[i].commentWriter === accountName){
+                      output += "       <section class = 'commentItem_button_wrapper'>"
+                      output += "           <button class = 'commentItem_button' onclick ='updateForm(" + res[i].id + ",\"" + res[i].commentContents + "\")'>수정</button>"
+                      output += "           <button class = 'commentItem_button' onclick ='commentDelete(" + res[i].id + "," + res[i].boardId +");'>삭제</button>"
+                      output += "       </section>"
+                      }
+                      output += "   </section>"
+                      output += "   <section class = 'commentItem_content' id = 'comment_" + res[i].id + "'>"
+                      output += "       <p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
+                      output += "   </section>";
+                      output += "</li>"
                   }
                   document.getElementById('comment-list').innerHTML = output;
                   document.getElementById('commentContents').value = '';
@@ -46,7 +56,9 @@
 
       //댓글 등록 클릭시 함수
       const commentWrite = () => {
-          var accountName = "[[${#authentication.name}]]";
+          var accountName = [[${#authentication.name}]];
+          const boardId = [[${param.boardId}]];
+
           if(accountName === "anonymousUser") {
             alert("댓글 등록은 로그인 후 이용하실 수 있습니다.");
             return;
@@ -54,7 +66,6 @@
 
           const writer =  accountName;
           const contents = document.getElementById("commentContents").value;
-          const boardId = [[${param.boardId}]];
           console.log("작성자 : ", writer);
           console.log("내용 : ", contents);
           console.log("게시글 번호 : ", boardId);
@@ -76,17 +87,25 @@
                       let writeAtDate = res[i].writeAt.substring(0,10);
                       let writeAtTime = res[i].writeAt.substring(11,19);
                       output += "<li class = 'commentItem'>";
-                      output += "<section class ='commentItem_header'>";
-                      output += "<div class = 'commentItem_writer'>"
-                      output += "<img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
-                      output += "<div class = 'commentItem_info'>";
-                      output += "<div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
-                      output += "<div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
-                      output += "</div>"
-                      output += "</section>"
-                      output += "<section class = 'commentItem_content'>"
-                      output += "<p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
-                      output += "</section></li>";
+                      output += "   <section class ='commentItem_header'>";
+                      output += "       <div class = 'commentItem_writer'>"
+                      output += "           <img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
+                      output += "           <div class = 'commentItem_info'>";
+                      output += "               <div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
+                      output += "               <div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
+                      output += "           </div>"
+                      output += "       </div>"
+                      if(res[i].commentWriter === accountName){
+                      output += "       <section class = 'commentItem_button_wrapper'>"
+                      output += "           <button class = 'commentItem_button' onclick ='updateForm(" + res[i].id + ",\"" + res[i].commentContents + "\")'>수정</button>"
+                      output += "           <button class = 'commentItem_button' onclick ='commentDelete(" + res[i].id + "," + res[i].boardId +");'>삭제</button>"
+                      output += "       </section>"
+                      }
+                      output += "   </section>"
+                      output += "   <section class = 'commentItem_content' id = 'comment_" + res[i].id + "'>"
+                      output += "       <p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
+                      output += "   </section>";
+                      output += "</li>"
                   }
                   document.getElementById('comment-list').innerHTML = output;
                   document.getElementById('commentContents').value = '';
@@ -97,25 +116,155 @@
           });
       }
 
-  //글 취소 버튼 클릭시 호출 함수
-  function cancel() {
-    var page = "[[${param.page}]]";
-    var myBoard = "[[${param.myBoard}]]";
+      //수정 버튼을 누르면 수정 화면 나오는 함수
+      function updateForm(commentId,commentContent) {
+           let output= "";
+           let commentItem = document.getElementById("comment_" + commentId);
+           let commentContentElement = commentItem.getElementsByClassName("commentItem_content")[0];
 
-    if(page) {
-      if(myBoard) {
-        window.location.href = "/?page=" + page + "&myBoard=on";
-      }else{
-        window.location.href = "/?page=" + page;
+
+           output += "  <div>";
+           output += "      <input class = 'commentItem_modifyInput' type = 'text' id = 'commentUpdate_" + commentId + "' value ='" + commentContent + "'>";
+           output += "      <div class = 'commentItem_input_button'>";
+           output += "          <button class = 'commentItem_buttonCancel' onclick = 'commentCancel(" + commentId +",\"" + commentContent + "\");'>취소</button>";
+           output += "          <button class = 'commentItem_buttonComplete' onclick = 'commentComplete("+ commentId +");'>완료</button>";
+           output += "      </div>";
+           output += "  </div>";
+
+           commentContentElement.innerHTML = output;
+
       }
-    }else {
-      if(myBoard) {
-        window.location.href = "/?myBoard=on" ;
-      }else{
-        window.location.href = "/" ;
+
+      // 댓글 수정에서 취소 누르면 다시 원래 댓글 내용 보여주는 함수
+      function commentCancel(commentId,commentContent) {
+           let output = "";
+           let commentItem = document.getElementById("comment_" + commentId);
+           let commentContentElement = commentItem.getElementsByClassName("commentItem_content")[0];
+
+           output += " <p class = 'commentItem_content commentContent'>" + commentContent + "</p>";
+
+           commentContentElement.innerHTML = output;
       }
-    }
-  }
+      //댓글 수정에서 완료 누르면 댓글 변경 함수
+      function commentComplete(commentId) {
+          var accountName = [[${#authentication.name}]];
+
+          let commentUpdate = document.getElementById("commentUpdate_" + commentId);
+
+          const contents = commentUpdate.value;
+          console.log("댓글 번호 : ", commentId);
+          console.log("댓글 내용 : ", contents);
+
+          $.ajax({
+              // 요청방식 : post, 요청주소 /comment/update, 요청데이터: 댓글 번호 , 댓글 내용
+              type: "post",
+              url: "/comment/update",
+              data: {
+                   "id" : commentId,
+                   "commentContents" : contents
+              },
+              success: function(res) {
+                  console.log("요청 성공" , res);
+                  let output = "";
+                  for(let i in res) {
+                      let writeAtDate = res[i].writeAt.substring(0,10);
+                      let writeAtTime = res[i].writeAt.substring(11,19);
+                      output += "<li class = 'commentItem'>";
+                      output += "   <section class ='commentItem_header'>";
+                      output += "       <div class = 'commentItem_writer'>"
+                      output += "           <img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
+                      output += "           <div class = 'commentItem_info'>";
+                      output += "               <div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
+                      output += "               <div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
+                      output += "           </div>"
+                      output += "       </div>"
+                      if(res[i].commentWriter === accountName){
+                      output += "       <section class = 'commentItem_button_wrapper'>"
+                      output += "           <button class = 'commentItem_button' onclick ='updateForm(" + res[i].id + ",\"" + res[i].commentContents + "\")'>수정</button>"
+                      output += "           <button class = 'commentItem_button' onclick ='commentDelete(" + res[i].id + "," + res[i].boardId +");'>삭제</button>"
+                      output += "       </section>"
+                      }
+                      output += "   </section>"
+                      output += "   <section class = 'commentItem_content' id = 'comment_" + res[i].id + "'>"
+                      output += "       <p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
+                      output += "   </section>";
+                      output += "</li>"
+                  }
+                  document.getElementById('comment-list').innerHTML = output;
+                  document.getElementById('commentContents').value = '';
+              },
+              error : function(err) {
+                  console.log("요청 실패", err);
+              }
+          });
+      }
+
+      //댓글 삭제 호출 함수
+      function commentDelete(commentId,boardId) {
+            var accountName = [[${#authentication.name}]];
+
+            $.ajax({
+              // 요청방식 : post, 요청주소 /comment/delete, 요청데이터: 댓글 번호 , 게시판 번호
+              type: "post",
+              url: "/comment/delete",
+              data: {
+                   "id" : commentId,
+                   "boardId" : boardId
+              },
+              success: function(res) {
+                  console.log("요청 성공" , res);
+                  let output = "";
+                  for(let i in res) {
+                      let writeAtDate = res[i].writeAt.substring(0,10);
+                      let writeAtTime = res[i].writeAt.substring(11,19);
+                      output += "<li class = 'commentItem'>";
+                      output += "   <section class ='commentItem_header'>";
+                      output += "       <div class = 'commentItem_writer'>"
+                      output += "           <img class = 'commentItem_userImg' src = '/image/userIcon.png'>";
+                      output += "           <div class = 'commentItem_info'>";
+                      output += "               <div class = 'commentItem_nickName'>" + res[i].commentNickname + "</div>";
+                      output += "               <div class = 'commentItem_writeAt'>" + writeAtDate + " " + writeAtTime + "</div>"
+                      output += "           </div>"
+                      output += "       </div>"
+                      if(res[i].commentWriter === accountName){
+                      output += "       <section class = 'commentItem_button_wrapper'>"
+                      output += "           <button class = 'commentItem_button' onclick ='updateForm(" + res[i].id + ",\"" + res[i].commentContents + "\")'>수정</button>"
+                      output += "           <button class = 'commentItem_button' onclick ='commentDelete(" + res[i].id + "," + res[i].boardId +");'>삭제</button>"
+                      output += "       </section>"
+                      }
+                      output += "   </section>"
+                      output += "   <section class = 'commentItem_content' id = 'comment_" + res[i].id + "'>"
+                      output += "       <p class = 'commentItem_content'>" + res[i].commentContents + "</p>";
+                      output += "   </section>";
+                      output += "</li>"
+                  }
+                  document.getElementById('comment-list').innerHTML = output;
+                  document.getElementById('commentContents').value = '';
+              },
+              error : function(err) {
+                  console.log("요청 실패", err);
+              }
+          });
+      }
+      //글 취소 버튼 클릭시 호출 함수
+      function cancel() {
+        var page = [[${param.page}]];
+        var myBoard = [[${param.myBoard}]];
+
+        if(page) {
+          if(myBoard) {
+            window.location.href = "/?page=" + page + "&myBoard=on";
+          }else{
+            window.location.href = "/?page=" + page;
+          }
+        }else {
+          if(myBoard) {
+            window.location.href = "/?myBoard=on" ;
+          }else{
+            window.location.href = "/" ;
+          }
+        }
+      }
 
 </script>
 <div th:replace = "fragments.html :: header"></div>
@@ -188,10 +337,24 @@
                         <div class = "commentItem_writeAt">2023-05-28 00:00:00</div>
                     </div>
               </div>
+              <section class = "commentItem_button_wrapper">
+                    <button class = commentItem_button>수정</button>
+                    <button class = commentItem_button>삭제</button>
+              </section>
           </section>
           <section class = "commentItem_content">
-              <p class = "commentItem_content commentContent">안녕하세요.</p>
+<!--              <p class = "commentItem_content commentContent">안녕하세요.</p>-->
           </section>
+
+<!--          <section class = "commentItem_content">-->
+<!--              <div>-->
+<!--                    <input class = "commentItem_modifyInput" type = "text" id = "commentUpdate" placeholder="안녕하세요." value = "안녕하세요.">-->
+<!--                    <div class = "commentItem_input_button">-->
+<!--                            <button class = "commentItem_buttonCancel">취소</button>-->
+<!--                            <button class = "commentItem_buttonComplete">완료</button>-->
+<!--                    </div>-->
+<!--              </div>-->
+<!--          </section>-->
       </li>
     </ul>
     <!-- 댓글 출력 부분 END    -->

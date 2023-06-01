@@ -63,4 +63,23 @@ public class CommentService {
                }
                return commentFormsList;
         }
+
+
+    public CommentForm update(CommentForm commentForm) {
+
+            Comment comment = commentRepository.findById(commentForm.getId()).get();
+            comment.setCommentContents(commentForm.getCommentContents());
+            //변경 감지 되는 지 보자
+            commentRepository.save(comment);
+
+            commentForm.setCommentContents(comment.getCommentContents());
+            commentForm.setBoardId(comment.getBoard().getId());
+            return commentForm;
+    }
+
+    public void delete(CommentForm commentForm) {
+
+            commentRepository.deleteById(commentForm.getId());
+
+    }
 }

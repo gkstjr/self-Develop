@@ -1004,3 +1004,55 @@ img {vertical-align: middle;}
         overflow-wrap: break-word;
         padding: 5px 0;
 }
+
+.commentItem_button {
+    font-size : 16px;
+    color:#444;
+    outline:none;
+    border:none;
+    background-color:#fff;
+    cursor:pointer;
+}
+.commentItem_button_wrapper {
+    display:flex;
+    justify-content: flex-end;
+    gap:10px;
+}
+
+.commentItem_modifyInput{
+        width: 100%;
+        border-radius: 8px;
+        padding: 8px 12px;
+        border: 1px solid #e1e1e1;
+        outline: none;
+        height:2.5rem;
+        font-size:1rem;
+        margin-right: 0.5rem;
+}
+
+.commentItem_input_button {
+        display:flex;
+        flex-direction: row;
+}
+
+.commentItem_input_button button {
+            border-radius: 4px;
+            width: 70px;
+            margin-top: 10px;
+            margin-right: 10px;
+            height: 1.75rem;
+            font-size: 1rem;
+            outline:none;
+            border:none;
+            cursor:pointer;
+}
+
+.commentItem_buttonCancel {
+        background: #e9ecef;
+}
+
+.commentItem_buttonComplete {
+        background: #262626;
+        font-weight: 700;
+        color: #fff;
+}
