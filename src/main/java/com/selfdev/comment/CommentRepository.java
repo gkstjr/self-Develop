@@ -10,4 +10,5 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     //select * from comment where board_id = ? order by id desc;
     List<Comment> findAllByBoardOrderByIdDesc(Board board);
 
+    Long countByBoardId(Long id);
 }
