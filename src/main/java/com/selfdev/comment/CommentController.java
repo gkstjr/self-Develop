@@ -16,6 +16,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
+
     @PostMapping("/search")
     public ResponseEntity search(@ModelAttribute CommentForm commentForm) {
         List<CommentForm> commentList = commentService.findAll(commentForm.getBoardId());
