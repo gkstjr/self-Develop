@@ -20,7 +20,7 @@ public class CommentController {
     public ResponseEntity search(@ModelAttribute CommentForm commentForm) {
         List<CommentForm> commentList = commentService.findAll(commentForm.getBoardId());
 
-        if(commentList == null) { // 게시글의 댓글이 없으면
+        if(commentList == null) { // 게시글의 댓글이 없으면 이부분은 공통처리해볼만 함
             return new ResponseEntity<>("해당 게시글의 댓글디 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }else{ // 게시글으 댓글이 있으면 댓글 목록 반환
             return new ResponseEntity<>(commentList, HttpStatus.OK);

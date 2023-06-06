@@ -11,4 +11,5 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     List<Comment> findAllByBoardOrderByIdDesc(Board board);
 
     Long countByBoardId(Long id);
+
 }
