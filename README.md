@@ -46,20 +46,20 @@
 - Vaildation을 이용해 정규식 검사를 구현했습니다.
 - 페이지네이션을 이용해 게시글 페이지를 구현하였습니다.
 <br>
-<img width="500" alt="스크린샷 2024-01-01 오후 7 17 14" src="https://github.com/gkstjr/self-Develop/assets/99389922/f9025d79-c5cc-4a4e-971f-7eb95bb6baba">
-<img width="500" alt="스크린샷 2024-01-01 오후 7 06 21" src="https://github.com/gkstjr/self-Develop/assets/99389922/5c5ea623-6200-41e2-b140-713ab59a764c">
+<img width="300" alt="스크린샷 2024-01-01 오후 7 17 14" src="https://github.com/gkstjr/self-Develop/assets/99389922/f9025d79-c5cc-4a4e-971f-7eb95bb6baba">
+<img width="300" alt="스크린샷 2024-01-01 오후 7 06 21" src="https://github.com/gkstjr/self-Develop/assets/99389922/5c5ea623-6200-41e2-b140-713ab59a764c">
 
 #### [ 글작성 / 상세 페이지 ]
 - 글 작성자가 본인일 경우 글 변경 , 글 삭제가 가능 합니다.
 - 댓글 등록이 가능합니다. 댓글 작성자가 본인일 경우 댓글 수정 , 삭제도 가능합니다.
 <br>
-<img width="500" alt="스크린샷 2024-01-01 오후 7 06 37" src="https://github.com/gkstjr/self-Develop/assets/99389922/f7194df1-71f0-421c-9f9f-643fbc1d0ed3">
-<img width="500" alt="스크린샷 2024-01-01 오후 7 06 40" src="https://github.com/gkstjr/self-Develop/assets/99389922/8e5a8faf-909b-45e7-8f50-ce906ff1ec4a">
+<img width="300" alt="스크린샷 2024-01-01 오후 7 06 37" src="https://github.com/gkstjr/self-Develop/assets/99389922/f7194df1-71f0-421c-9f9f-643fbc1d0ed3">
+<img width="300" alt="스크린샷 2024-01-01 오후 7 06 40" src="https://github.com/gkstjr/self-Develop/assets/99389922/8e5a8faf-909b-45e7-8f50-ce906ff1ec4a">
 
 #### [ 댓글 ]
 - 글 상세보기에서 댓글 작성 / 변경 / 삭제를 할 수 있습니다. 
 <br>
-<img width="500" alt="스크린샷 2024-01-01 오후 7 21 31" src="https://github.com/gkstjr/self-Develop/assets/99389922/3da5be21-efd3-43e8-a8c9-5e35412efd19">
+<img width="300" alt="스크린샷 2024-01-01 오후 7 21 31" src="https://github.com/gkstjr/self-Develop/assets/99389922/3da5be21-efd3-43e8-a8c9-5e35412efd19">
 
 <br>
 
