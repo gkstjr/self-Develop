@@ -37,8 +37,8 @@
 - 전체 글 목록이 조회 되고 내 글만 보기를 눌렀을 때는 자신의 글만 볼 수 있습니다.
 - 글 상세보기로 넘어가는 페이지를 구현했습니다.
 <br>
-<img width="500" alt="스크린샷 2024-01-01 오후 7 06 04" src="https://github.com/gkstjr/self-Develop/assets/99389922/59db843c-e76f-4674-8243-23ad614b8589"> 
-<img width="500" alt="스크린샷 2024-01-01 오후 7 06 11" src="https://github.com/gkstjr/self-Develop/assets/99389922/30009232-73e3-4999-8cd1-a2de780240d6">
+<img width="400" alt="스크린샷 2024-01-01 오후 7 06 04" src="https://github.com/gkstjr/self-Develop/assets/99389922/59db843c-e76f-4674-8243-23ad614b8589"> 
+<img width="400" alt="스크린샷 2024-01-01 오후 7 06 11" src="https://github.com/gkstjr/self-Develop/assets/99389922/30009232-73e3-4999-8cd1-a2de780240d6">
 
 #### [ 로그인 / 회원가입 페이지 ]
 - 계정을 로그인하거나 회원가입할 수 있는 페이지입니다.
